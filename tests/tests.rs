@@ -14,8 +14,18 @@ fn normalize__valid_input__should_return_correct_value() {
     let expected_y = -(5 as f64).sqrt() / 3f64;
     let expected_z = (4f64 / (3f64 *(5 as f64).sqrt()));
 
-    let result = rust_rt::normalize(v);
+    let result = rust_rt::normalize(&v);
     assert_eq!(result[0], expected_x);
     assert_eq!(result[1], expected_y);
     assert_eq!(result[2], expected_z);
+}
+
+#[test]
+fn negative__valid_input__should_return_correct_value() {
+    let v = vec![2f64, 4f64, -5f64];
+
+    let result = rust_rt::negative(&v);
+    assert_eq!(-v[0], result[0]);
+    assert_eq!(-v[1], result[1]);
+    assert_eq!(-v[2], result[2]);
 }
