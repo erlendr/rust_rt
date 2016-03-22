@@ -10,9 +10,9 @@ fn magnitude__valid_input__should_return_correct_value() {
 #[test]
 fn normalize__valid_input__should_return_correct_value() {
     let v = vec![2f64, -5f64, 4f64];
-    let expected_x = (2f64 / (3f64 * (5 as f64).sqrt()));
+    let expected_x = 2f64 / (3f64 * (5 as f64).sqrt());
     let expected_y = -(5 as f64).sqrt() / 3f64;
-    let expected_z = (4f64 / (3f64 *(5 as f64).sqrt()));
+    let expected_z = 4f64 / (3f64 *(5 as f64).sqrt());
 
     let result = rust_rt::normalize(&v);
     assert_eq!(result[0], expected_x);
@@ -40,4 +40,39 @@ fn dot_product__valid_input__should_return_correct_value() {
     let result = rust_rt::dot_product(&v1, &v2);
 
     assert_eq!(expected_result, result);
+}
+
+#[test]
+fn cross_product__valid_input__should_return_correct_value() {
+    let v1 = vec![1f64, 2f64, 3f64];
+    let v2 = vec![3f64, 4f64, 5f64];
+
+    let result = rust_rt::cross_product(&v1, &v2);
+
+    assert_eq!(-2f64, result[0]);
+    assert_eq!(4f64, result[1]);
+    assert_eq!(-2f64, result[2]);
+}
+
+#[test]
+fn add__valid_input__should_return_correct_result() {
+    let v1 = vec![1f64, 2f64, 3f64];
+    let v2 = vec![3f64, 4f64, 5f64];
+
+    let result = rust_rt::add(&v1, &v2);
+
+    assert_eq!(4f64, result[0]);
+    assert_eq!(6f64, result[1]);
+    assert_eq!(8f64, result[2]);
+}
+
+#[test]
+fn mult__valid_input__should_return_correct_result() {
+    let v = vec![1f64, 2f64, 3f64];
+
+    let result = rust_rt::mult(&v, 3f64);
+
+    assert_eq!(3f64, result[0]);
+    assert_eq!(6f64, result[1]);
+    assert_eq!(9f64, result[2]);
 }
