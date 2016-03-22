@@ -29,3 +29,15 @@ fn negative__valid_input__should_return_correct_value() {
     assert_eq!(-v[1], result[1]);
     assert_eq!(-v[2], result[2]);
 }
+
+#[test]
+fn dot_product__valid_input__should_return_correct_value() {
+    let v1 = vec![1f64, 2f64, 3f64];
+    let v2 = vec![3f64, 4f64, 5f64];
+
+    let expected_result = 26f64;
+
+    let result = rust_rt::dot_product(&v1, &v2);
+
+    assert_eq!(expected_result, result);
+}
