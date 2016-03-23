@@ -25,10 +25,10 @@ fn normalize__valid_input__should_return_correct_value() {
 fn negative__valid_input__should_return_correct_value() {
     let v = rust_rt::Vector3D { x: 2.0, y: 4.0, z: -5.0 };
 
-    let result = v.negative();
-    assert_eq!(-v.x, result.x);
-    assert_eq!(-v.y, result.y);
-    assert_eq!(-v.z, result.z);
+    let result = -v;
+    assert_eq!(-2.0, result.x);
+    assert_eq!(-4.0, result.y);
+    assert_eq!(5.0, result.z);
 }
 
 #[test]
@@ -38,7 +38,7 @@ fn dot_product__valid_input__should_return_correct_value() {
 
     let expected_result = 26.0;
 
-    let result = v1.dot_product(&v2);
+    let result = v1 * v2;
 
     assert_eq!(expected_result, result);
 }
@@ -60,7 +60,7 @@ fn add__valid_input__should_return_correct_result() {
     let v1 = rust_rt::Vector3D { x: 1.0, y: 2.0, z: 3.0 };
     let v2 = rust_rt::Vector3D { x: 3.0, y: 4.0, z: 5.0 };
 
-    let result = v1.add(&v2);
+    let result = v1 + v2;
 
     assert_eq!(4.0, result.x);
     assert_eq!(6.0, result.y);
@@ -71,7 +71,7 @@ fn add__valid_input__should_return_correct_result() {
 fn mult__valid_input__should_return_correct_result() {
     let v = rust_rt::Vector3D { x: 1.0, y: 2.0, z: 3.0};
 
-    let result = v.mult(3.0);
+    let result = v * 3.0;
 
     assert_eq!(3.0, result.x);
     assert_eq!(6.0, result.y);

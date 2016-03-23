@@ -46,3 +46,47 @@ impl Vector3D {
         };
     }
 }
+
+impl std::ops::Add for Vector3D {
+    type Output = Vector3D;
+
+    /// Adds two vectors
+    fn add(self, other: Vector3D) -> Vector3D {
+        return Vector3D {
+            x: (self.x + other.x),
+            y: (self.y + other.y),
+            z: (self.z + other.z)
+        };
+    }
+}
+
+impl std::ops::Mul<f64> for Vector3D {
+    type Output = Vector3D;
+
+    /// Multiplies vector by scalar
+    fn mul(self, scalar: f64) -> Vector3D {
+        return Vector3D {
+            x: (self.x * scalar),
+            y: (self.y * scalar),
+            z: (self.z * scalar)
+        };
+    }
+}
+
+impl std::ops::Mul<Vector3D> for Vector3D {
+    type Output = f64;
+
+    /// Calculates dot product of two vectors
+    fn mul(self, other: Vector3D) -> f64 {
+        return (self.x * other.x) + (self.y * other.y) + (self.z * other.z);
+    }
+}
+
+impl std::ops::Neg for Vector3D {
+    type Output = Vector3D;
+
+    /// Negate vector
+    fn neg(self) -> Vector3D {
+        return Vector3D {x: -self.x, y: -self.y, z: -self.z };
+    }
+}
