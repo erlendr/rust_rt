@@ -1,44 +1,48 @@
-pub fn magnitude(v: &Vec<f64>) -> f64 {
-    let x = v[0];
-    let y = v[1];
-    let z = v[2];
-
-    return ((x*x) + (y*y) + (z*z) as f64).sqrt();
+pub struct Vector3D {
+    pub x: f64,
+    pub y: f64,
+    pub z: f64
 }
 
-pub fn normalize(v: &Vec<f64>) -> Vec<f64> {
-    let magnitude = magnitude(v);
-    return v.iter().map(|&x| x / magnitude).collect();
-}
+impl Vector3D {
+    pub fn magnitude(&self) -> f64 {
+        return ((self.x*self.x) + (self.y*self.y) + (self.z*self.z) as f64).sqrt();
+    }
 
-pub fn negative(v: &Vec<f64>) -> Vec<f64> {
-    return v.iter().map(|&x| -x).collect();
-}
+    pub fn normalize(&self) -> Vector3D {
+        let magnitude = self.magnitude();
+        return Vector3D {x: self.x / magnitude, y: self.y / magnitude, z: self.z / magnitude };
+    }
 
-pub fn dot_product(v1: &Vec<f64>, v2: &Vec<f64>) -> f64 {
-    return (v1[0] * v2[0]) + (v1[1] * v2[1]) + (v1[2] * v2[2]);
-}
+    pub fn negative(&self) -> Vector3D {
+        return Vector3D {x: -self.x, y: -self.y, z: -self.z };
+    }
 
-pub fn cross_product(v1: &Vec<f64>, v2: &Vec<f64>) -> Vec<f64> {
-    let x1 = v1[0];
-    let y1 = v1[1];
-    let z1 = v1[2];
+    pub fn dot_product(&self, v2: &Vector3D) -> f64 {
+        return (self.x * v2.x) + (self.y * v2.y) + (self.z * v2.z);
+    }
 
-    let x2 = v2[0];
-    let y2 = v2[1];
-    let z2 = v2[2];
+    pub fn cross_product(&self, v2: &Vector3D) -> Vector3D {
+        return Vector3D {
+            x: ((self.y * v2.z) - (self.z * v2.y)),
+            y: ((self.z * v2.x) - (self.x * v2.z)),
+            z: ((self.x * v2.y) - (self.y * v2.x))
+        };
+    }
 
-    return vec![
-        (y1*z2) - (z1*y2),
-        (z1*x2) - (x1*z2),
-        (x1*y2) - (y1*x2)
-    ];
-}
+    pub fn add(&self, v2: &Vector3D) -> Vector3D {
+        return Vector3D {
+            x: (self.x + v2.x),
+            y: (self.y + v2.y),
+            z: (self.z + v2.z)
+        };
+    }
 
-pub fn add(v1: &Vec<f64>, v2: &Vec<f64>) -> Vec<f64> {
-    return vec![v1[0]+v2[0], v1[1]+v2[1], v1[2]+v2[2]];
-}
-
-pub fn mult(v: &Vec<f64>, scalar: f64) -> Vec<f64> {
-    return vec![v[0] * scalar, v[1] * scalar, v[2] * scalar];
+    pub fn mult(&self, scalar: f64) -> Vector3D {
+        return Vector3D {
+            x: (self.x * scalar),
+            y: (self.y * scalar),
+            z: (self.z * scalar)
+        };
+    }
 }
