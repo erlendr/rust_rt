@@ -1,4 +1,3 @@
-extern crate rust_rt;
 use rust_rt::maths::vector3d;
 
 #[test]
