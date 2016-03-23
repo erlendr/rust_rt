@@ -1,3 +1,5 @@
+use std;
+
 pub struct Vector3D {
     pub x: f64,
     pub y: f64,
