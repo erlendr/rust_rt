@@ -42,13 +42,13 @@ mod tests {
 
     #[test]
     fn add_valid_input_should_return_correct_value() {
-        let red_color = Color { red: 255.0, green: 0.0, blue: 0.0, special: 0.0 };
-        let green_color = Color { red: 0.0, green: 255.0, blue: 0.0, special: 0.0 };
+        let red_color = Color { red: 1.0, green: 0.0, blue: 0.0, special: 0.0 };
+        let green_color = Color { red: 0.0, green: 1.0, blue: 0.0, special: 0.0 };
 
         let result = red_color + green_color;
 
-        assert_eq!(255.0, result.red);
-        assert_eq!(255.0, result.green);
+        assert_eq!(1.0, result.red);
+        assert_eq!(1.0, result.green);
         assert_eq!(0.0, result.blue);
         assert_eq!(0.0, result.special);
     }
