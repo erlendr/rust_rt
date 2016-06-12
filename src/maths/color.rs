@@ -7,6 +7,8 @@ pub struct Color {
     pub special: f64
 }
 
+const RGB_MAX: f64 = 255.0;
+
 impl Color {
     pub fn new() -> Color {
         return Color { red: 0.0, blue: 0.0, green: 0.0, special: 0.0 };
@@ -28,6 +30,48 @@ impl Color {
             blue: (self.blue * c2.blue),
             special: (self.special * c2.special),
         };
+    }
+
+    pub fn average(c: &Color) -> Color {
+        return Color {
+            red: c.red / 2.0,
+            green: c.green / 2.0,
+            blue: c.blue / 2.0,
+            special: c.special / 2.0,
+        }
+    }
+
+    pub fn scalar(&self, scalar: f64) -> Color {
+        return Color {
+            red: self.red * scalar,
+            green: self.green * scalar,
+            blue: self.blue * scalar,
+            special: self.special,
+        }
+    }
+
+    pub fn clip(&mut self) {
+        let sum_of_light = self.red + self.green + self.blue;
+        let excess_light = sum_of_light - 3.0; // WTF?
+
+        if excess_light > 0.0 {
+            self.red = self.red + excess_light * (self.red / sum_of_light);
+            self.green = self.green + excess_light * (self.green / sum_of_light);
+            self.blue = self.blue + excess_light * (self.blue / sum_of_light);
+        }
+
+        self.red = self.red.min(1.0).max(0.0);
+        self.green = self.green.min(1.0).max(0.0);
+        self.blue = self.blue.min(1.0).max(0.0);
+    }
+
+    pub fn compute_pixel_color(c: &Color) -> Color {
+        return Color {
+            red: c.red * RGB_MAX,
+            green: c.green * RGB_MAX,
+            blue: c.blue * RGB_MAX,
+            special: 0.0,
+        }
     }
 }
 
@@ -113,5 +157,63 @@ mod tests {
         assert_eq!(0.0, result.green);
         assert_eq!(0.0, result.blue);
         assert_eq!(0.0, result.special);
+    }
+
+    #[test]
+    fn average_valid_input_should_return_correct_value() {
+        let color = Color { red: 0.5, green: 1.0, blue: 0.25, special: 0.75 };
+
+        let result = Color::average(&color);
+
+        assert_eq!(0.25, result.red);
+        assert_eq!(0.5, result.green);
+        assert_eq!(0.125, result.blue);
+        assert_eq!(0.375, result.special);
+    }
+
+    #[test]
+    fn scalar_valid_input_should_return_correct_value() {
+        let color = Color { red: 0.5, green: 1.0, blue: 0.25, special: 0.75 };
+
+        let result = color.scalar(3.0);
+
+        assert_eq!(1.5, result.red);
+        assert_eq!(3.0, result.green);
+        assert_eq!(0.75, result.blue);
+        assert_eq!(0.75, result.special);
+    }
+
+    #[test]
+    fn compute_pixel_color_valid_input_should_return_correct_value() {
+        let color = Color { red: 0.5, green: 1.0, blue: 0.25, special: 0.75 };
+
+        let result = Color::compute_pixel_color(&color);
+
+        assert_eq!(127.5, result.red);
+        assert_eq!(255.0, result.green);
+        assert_eq!(63.75, result.blue);
+        assert_eq!(0.0, result.special);
+    }
+
+    #[test]
+    fn clip_nonclippable_input_should_not_clip() {
+        let mut color = Color { red: 0.5, green: 0.3, blue: 0.25, special: 0.75 };
+        color.clip();
+
+        assert_eq!(0.5, color.red);
+        assert_eq!(0.3, color.green);
+        assert_eq!(0.25, color.blue);
+        assert_eq!(0.75, color.special);
+    }
+
+    #[test]
+    fn clip_clippable_input_should_clip() {
+        let mut color = Color { red: 1.5, green: 2.0, blue: 4.25, special: 0.75 };
+        color.clip();
+
+        assert_eq!(1.0, color.red);
+        assert_eq!(1.0, color.green);
+        assert_eq!(1.0, color.blue);
+        assert_eq!(0.75, color.special);
     }
 }
