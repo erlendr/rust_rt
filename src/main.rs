@@ -5,5 +5,5 @@ use rust_rt::maths::ray::Ray;
 fn main() {
     println!("Hello, world!");
 
-    let ray = Ray::new();
+    let _ = Ray::new();
 }
